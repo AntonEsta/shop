@@ -1,0 +1,71 @@
+body * {
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: white;
+}
+h3 {
+    padding: 10px 0;
+    padding-bottom: 0;
+    font-size: 24px;
+}
+
+a .card {
+    color: black;
+    
+}
+
+#main-menu-search input {
+    border: none;
+    border-bottom: 1px solid #ced4da;
+    border-radius: 0;
+}
+
+.main-logo img {
+    width: 200px;
+    height: 200px;
+}
+.breadcrumbs {
+    font-size: small;
+    font-style: italic;
+    color: lightskyblue;
+    margin: 10px 0;
+}
+.price-rub::after {
+    content: "₽";
+}
+.show-more {
+    text-align: center;
+}
+.nav .nav {
+    margin-left: 20px;
+}
+.nav.left-menu *{
+    padding: 2px;
+}
+.navbar-nav .nav-link.active {
+	cursor: pointer;
+}
+.left-menu .nav-link.active {
+    font-size: 14px;
+    font-weight: bold;
+    color: black;
+    cursor: pointer;
+}
+.left-menu .nav .nav-link.active {
+    font-weight: 100;
+    font-size: 12px;
+}
+
+/* for debug */
+.debug-bordered {
+    border: 1px solid gray;
+}
+.debug-color {
+    border-color: red;
+}
+.menu-item-have-subitems::after {
+	content: "...";
+}
+.menu-item-havent-subitems {
+}

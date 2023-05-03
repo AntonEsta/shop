@@ -1,0 +1,384 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Document</title>
+<link rel="stylesheet" href="css/fontawesome.min.css">
+<link rel="stylesheet" href="css/bootstrap.min.css">
+<link rel="stylesheet" href="css/main.css">
+<link rel="stylesheet" href="css/cards.css">
+<!--<script src="js/bootstrap.min.js"></script>-->
+<script src="js/main.js" defer></script>
+</head>
+
+<body>
+	<header class="container">
+		<div class="row">
+			<!-- header -->
+			<div id="main-logo" class="col-2">
+				<img src="img/logo_200x200.png" alt="Логотип магазина">
+			</div>
+			<div class="col">
+				<div id="main-menu" class="navbar">
+					<!-- header - main-menu -->
+					<ul
+						class="navbar-nav flex-row flex-wrap bd-navbar-nav pt-2 py-md-0">
+						<li class="nav-item col-6 col-md-auto"><a
+							class="nav-link p-2" href="index.html">Магазин</a></li>
+						<li class="nav-item col-6 col-md-auto"><a
+							class="nav-link p-2 active" aria-current="true" href="#">Вход</a>
+						</li>
+					</ul>
+				</div>
+			</div>
+		</div>
+	</header>
+	<main class="container">
+		<div class="row">
+			<!-- content -->
+			<div class="col-2 border">
+				<div class="nav left-menu flex-column">
+					<div class="nav-item">
+						<a href="#" class="nav-link active">Смартфоны и гаджеты</a>
+						<div class="nav flex-column">
+							<a href="#" class="nav-link active">Смартфоны</a> <a href="#"
+								class="nav-link active">Сотовые телефоны</a> <a href="#"
+								class="nav-link active">Планшеты</a> <a href="#"
+								class="nav-link active">Гаджеты</a> <a href="#"
+								class="nav-link active">Аксессуары для смартфонов</a> <a
+								href="#" class="nav-link active">Аксессуары для планшетов</a>
+						</div>
+						<a href="#" class="nav-link active">Ноутбуки и компьютеры</a>
+						<div class="nav flex-column">
+							<a href="category-notebooks.html" class="nav-link active">Ноутбуки</a>
+							<a href="#" class="nav-link active">Компьютеры и моноблоки</a> <a
+								href="#" class="nav-link active">Комплектующие для ПК</a>
+						</div>
+						<a href="#" class="nav-link active">Телевизоры, аудио-видео,
+							фото</a>
+						<div class="nav flex-column">
+							<a href="#" class="nav-link active">Телевизоры</a> <a href="#"
+								class="nav-link active">Техника Hi-Fi</a> <a href="#"
+								class="nav-link active">Аудиотехника</a> <a href="#"
+								class="nav-link active">Видеокамеры</a> <a href="#"
+								class="nav-link active">Фотоаппараты</a>
+						</div>
+						<a href="#" class="nav-link active">Бытовая техника</a>
+						<div class="nav flex-column">
+							<a href="#" class="nav-link active">Техника для кухни</a> <a
+								href="#" class="nav-link active">Техника для уборки</a> <a
+								href="#" class="nav-link active">Принадлежности</a> <a href="#"
+								class="nav-link active">Обогреватели</a>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="col">
+				<div id="breadcrumbs-top" class="breadcrumbs">
+					<!-- breadcrumbs -->
+					<nav aria-label="breadcrumb">
+						<ol class="breadcrumb">
+							<li class="breadcrumb-item" aria-current="page">Home</a></li>
+							<!-- <li class="breadcrumb-item"><a href="#">Library</a></li>
+                          <li class="breadcrumb-item active" aria-current="page">Data</li> -->
+						</ol>
+					</nav>
+				</div>
+				<!-- Популярные категории -->
+				<h3>Популярные категории</h3>
+				<div id="popular-category"
+					class="container-fluid bg-trasparent my-4 p-3"
+					style="position: relative;">
+					<div
+						class="row row-cols-1 row-cols-xs-2 row-cols-sm-2 row-cols-lg-4 g-3">
+						<div class="col">
+							<a href="category-notebooks.html">
+								<div id="popular-category-card-1" class="card h-100 shadow-sm">
+									<img src="img/notebook-300px.webp" class="card-img-top"
+										alt="...">
+									<div id="popular-category-card-body-1" class="card-body">
+										<h5 id="popular-category-card-title-1"
+											class="card-title center">Ноутбуки</h5>
+									</div>
+								</div>
+							</a>
+						</div>
+						<div class="col">
+							<a href="#">
+								<div id="popular-category-card-2" class="card h-100 shadow-sm">
+									<img src="img/tv-300px.webp" class="card-img-top" alt="...">
+									<div id="popular-category-card-body-2" class="card-body">
+										<h5 id="popular-category-card-title-2"
+											class="card-title center">Телевизоры</h5>
+									</div>
+								</div>
+							</a>
+						</div>
+						<div class="col">
+							<a href="#">
+								<div id="popular-category-card-3" class="card h-100 shadow-sm">
+									<img src="img/smartphone-300px.webp" class="card-img-top"
+										alt="...">
+									<div id="popular-category-card-body-3" class="card-body">
+										<h5 id="popular-category-card-title-3"
+											class="card-title center">Смартфоны</h5>
+									</div>
+								</div>
+							</a>
+						</div>
+						<div class="col">
+							<a href="#">
+								<div id="popular-category-card-4" class="card h-100 shadow-sm">
+									<img src="img/combain-300px.webp" class="card-img-top"
+										alt="...">
+									<div id="popular-category-card-body-4" class="card-body">
+										<h5 id="popular-category-card-title-4"
+											class="card-title center">Техника для кухни</h5>
+									</div>
+								</div>
+							</a>
+						</div>
+					</div>
+				</div>
+				<!-- Новинки -->
+				<h3>Новинки</h3>
+				<div id="popular-category"
+					class="container-fluid bg-trasparent my-4 p-3"
+					style="position: relative;">
+					<div
+						class="row row-cols-1 row-cols-xs-2 row-cols-sm-2 row-cols-lg-4 g-3">
+						<div class="col">
+							<div id="popular-category-card-1" class="card h-100 shadow-sm">
+								<img
+									src="img/download-laptop-notebook-png-image-png-image-pngimg-2-300px.png"
+									class="card-img-top" alt="...">
+								<div id="popular-category-card-body-1" class="card-body">
+									<div class="clearfix mb-3">
+										<a href="#"> <span
+											id="popular-category-card-body-brand-name-1"
+											class="float-start badge rounded-pill bg-primary">ASUS
+												Rog</span>
+										</a> <span id="popular-category-card-body-price-1"
+											class="float-end price-hp price-rub">12354.00</span>
+									</div>
+									<h5 id="popular-category-card-title-1" class="card-title">Lorem,
+										ipsum dolor sit amet consectetur adipisicing elit. Veniam
+										quidem eaque ut eveniet aut quis rerum. Asperiores accusamus
+										harum ducimus velit odit ut. Saepe, iste optio laudantium sed
+										aliquam sequi.</h5>
+									<div class="text-center my-4">
+										<a href="#" class="btn btn-info">К ТОВАРУ</a>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="col">
+							<div id="popular-category-card-2" class="card h-100 shadow-sm">
+								<img
+									src="img/download-laptop-notebook-png-image-png-image-pngimg-2-300px.png"
+									class="card-img-top" alt="...">
+								<div id="popular-category-card-body-2" class="card-body">
+									<div class="clearfix mb-3">
+										<a href="#"> <span
+											id="popular-category-card-body-brand-name-2"
+											class="float-start badge rounded-pill bg-primary">ASUS
+												Rog</span>
+										</a> <span id="popular-category-card-body-price-2"
+											class="float-end price-hp price-rub">12354.00</span>
+									</div>
+									<h5 id="popular-category-card-title-2" class="card-title">Lorem,
+										ipsum dolor sit amet consectetur adipisicing elit. Veniam
+										quidem eaque ut eveniet aut quis rerum. Asperiores accusamus
+										harum ducimus velit odit ut. Saepe, iste optio laudantium sed
+										aliquam sequi.</h5>
+									<div class="text-center my-4">
+										<a href="#" class="btn btn-info">К ТОВАРУ</a>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="col">
+							<div id="popular-category-card-3" class="card h-100 shadow-sm">
+								<img
+									src="img/download-laptop-notebook-png-image-png-image-pngimg-2-300px.png"
+									class="card-img-top" alt="...">
+								<div id="popular-category-card-body-3" class="card-body">
+									<div class="clearfix mb-3">
+										<a href="#"> <span
+											id="popular-category-card-body-brand-name-3"
+											class="float-start badge rounded-pill bg-primary">ASUS
+												Rog</span>
+										</a> <span id="popular-category-card-body-price-3"
+											class="float-end price-hp price-rub">12354.00</span>
+									</div>
+									<h5 id="popular-category-card-title-3" class="card-title">Lorem,
+										ipsum dolor sit amet consectetur adipisicing elit. Veniam
+										quidem eaque ut eveniet aut quis rerum. Asperiores accusamus
+										harum ducimus velit odit ut. Saepe, iste optio laudantium sed
+										aliquam sequi.</h5>
+									<div class="text-center my-4">
+										<a href="#" class="btn btn-info">К ТОВАРУ</a>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="col">
+							<div id="popular-category-card-4" class="card h-100 shadow-sm">
+								<img
+									src="img/download-laptop-notebook-png-image-png-image-pngimg-2-300px.png"
+									class="card-img-top" alt="...">
+								<div id="popular-category-card-body-4" class="card-body">
+									<div class="clearfix mb-3">
+										<a href="#"> <span
+											id="popular-category-card-body-brand-name-4"
+											class="float-start badge rounded-pill bg-primary">ASUS
+												Rog</span>
+										</a> <span id="popular-category-card-body-price-4"
+											class="float-end price-hp price-rub">12354.00</span>
+									</div>
+									<h5 id="popular-category-card-title-4" class="card-title">Lorem,
+										ipsum dolor sit amet consectetur adipisicing elit. Veniam
+										quidem eaque ut eveniet aut quis rerum. Asperiores accusamus
+										harum ducimus velit odit ut. Saepe, iste optio laudantium sed
+										aliquam sequi.</h5>
+									<div class="text-center my-4">
+										<a href="#" class="btn btn-info">К ТОВАРУ</a>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="col">
+							<div id="popular-category-card-5" class="card h-100 shadow-sm">
+								<img
+									src="img/download-laptop-notebook-png-image-png-image-pngimg-2-300px.png"
+									class="card-img-top" alt="...">
+								<div id="popular-category-card-body-5" class="card-body">
+									<div class="clearfix mb-3">
+										<a href="#"> <span
+											id="popular-category-card-body-brand-name-5"
+											class="float-start badge rounded-pill bg-primary">ASUS
+												Rog</span>
+										</a> <span id="popular-category-card-body-price-5"
+											class="float-end price-hp price-rub">12354.00</span>
+									</div>
+									<h5 id="popular-category-card-title-5" class="card-title">Lorem,
+										ipsum dolor sit amet consectetur adipisicing elit. Veniam
+										quidem eaque ut eveniet aut quis rerum. Asperiores accusamus
+										harum ducimus velit odit ut. Saepe, iste optio laudantium sed
+										aliquam sequi.</h5>
+									<div class="text-center my-4">
+										<a href="#" class="btn btn-info">К ТОВАРУ</a>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="col">
+							<div id="popular-category-card-6" class="card h-100 shadow-sm">
+								<img
+									src="img/download-laptop-notebook-png-image-png-image-pngimg-2-300px.png"
+									class="card-img-top" alt="...">
+								<div id="popular-category-card-body-6" class="card-body">
+									<div class="clearfix mb-3">
+										<a href="#"> <span
+											id="popular-category-card-body-brand-name-6"
+											class="float-start badge rounded-pill bg-primary">ASUS
+												Rog</span>
+										</a> <span id="popular-category-card-body-price-6"
+											class="float-end price-hp price-rub">12354.00</span>
+									</div>
+									<h5 id="popular-category-card-title-6" class="card-title">Lorem,
+										ipsum dolor sit amet consectetur adipisicing elit. Veniam
+										quidem eaque ut eveniet aut quis rerum. Asperiores accusamus
+										harum ducimus velit odit ut. Saepe, iste optio laudantium sed
+										aliquam sequi.</h5>
+									<div class="text-center my-4">
+										<a href="#" class="btn btn-info">К ТОВАРУ</a>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="col">
+							<div id="popular-category-card-7" class="card h-100 shadow-sm">
+								<img
+									src="img/download-laptop-notebook-png-image-png-image-pngimg-2-300px.png"
+									class="card-img-top" alt="...">
+								<div id="popular-category-card-body-7" class="card-body">
+									<div class="clearfix mb-3">
+										<a href="#"> <span
+											id="popular-category-card-body-brand-name-7"
+											class="float-start badge rounded-pill bg-primary">ASUS
+												Rog</span>
+										</a> <span id="popular-category-card-body-price-7"
+											class="float-end price-hp price-rub">12354.00</span>
+									</div>
+									<h5 id="popular-category-card-title-7" class="card-title">Lorem,
+										ipsum dolor sit amet consectetur adipisicing elit. Veniam
+										quidem eaque ut eveniet aut quis rerum. Asperiores accusamus
+										harum ducimus velit odit ut. Saepe, iste optio laudantium sed
+										aliquam sequi.</h5>
+									<div class="text-center my-4">
+										<a href="#" class="btn btn-info">К ТОВАРУ</a>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="col">
+							<div id="popular-category-card-8" class="card h-100 shadow-sm">
+								<img
+									src="img/download-laptop-notebook-png-image-png-image-pngimg-2-300px.png"
+									class="card-img-top" alt="...">
+								<div id="popular-category-card-body-8" class="card-body">
+									<div class="clearfix mb-3">
+										<a href="#"> <span
+											id="popular-category-card-body-brand-name-8"
+											class="float-start badge rounded-pill bg-primary">ASUS
+												Rog</span>
+										</a> <span id="popular-category-card-body-price-8"
+											class="float-end price-hp price-rub">12354.00</span>
+									</div>
+									<h5 id="popular-category-card-title-8" class="card-title">Lorem,
+										ipsum dolor sit amet consectetur adipisicing elit. Veniam
+										quidem eaque ut eveniet aut quis rerum. Asperiores accusamus
+										harum ducimus velit odit ut. Saepe, iste optio laudantium sed
+										aliquam sequi.</h5>
+									<div class="text-center my-4">
+										<a href="#" class="btn btn-info">К ТОВАРУ</a>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="row-cols-1">
+					<div class="col" style="text-align: center;">
+						<span class="btn btn-info">ещё</span>
+					</div>
+
+				</div>
+				<div id="breadcrumbs-bottom" class="breadcrumbs">
+					<!-- breadcrumbs -->
+					<nav aria-label="breadcrumb">
+						<ol class="breadcrumb">
+							<li class="breadcrumb-item" aria-current="page">Home</a></li>
+							<!-- <li class="breadcrumb-item"><a href="#">Library</a></li>
+                          <li class="breadcrumb-item active" aria-current="page">Data</li> -->
+						</ol>
+					</nav>
+				</div>
+			</div>
+		</div>
+	</main>
+	<footer class="container">
+		<div class="row container-fluid">
+			<!-- footer -->
+			<div class="col col-12 text-center">
+				<span style="font-size: small;">2023г.</span>
+			</div>
+		</div>
+	</footer>
+</body>
+
+</html>

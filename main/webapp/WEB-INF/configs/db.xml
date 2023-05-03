@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<config>
+        <driver>com.mysql.cj.jdbc.Driver</driver>
+        <server>localhost</server>
+        <port>3306</port>
+        <login>root</login>
+        <password>root</password>
+        <db>lesson23_11</db>
+        <connection_timeout>10</connection_timeout>
+</config>
