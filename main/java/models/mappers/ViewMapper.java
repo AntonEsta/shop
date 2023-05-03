@@ -30,7 +30,7 @@ public class ViewMapper {
 							"" + good.getPrice(),
 							good.getInfo(),
 							"goodToCart(" + good.getId() + ",1)",
-							"В КАРЗИНУ",
+							"В КОРЗИНУ",
 							true);
 	}
 	

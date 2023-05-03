@@ -1,7 +1,6 @@
 package controllers;
 
 import java.io.IOException;
-import java.net.URL;
 import java.sql.SQLException;
 
 import javax.servlet.ServletException;
@@ -17,6 +16,7 @@ import orm.gateways.GoodGateway;
 import orm.gateways.UserGateway;
 import pojo.User;
 import pojo.UserPermitionType;
+import pojo.UserSession;
 import pojo.UserSessionFactory;
 import pojo.UserSessionHandler;
 import pojo.Validators;
@@ -32,6 +32,7 @@ public class Main extends HttpServlet {
 		request.setAttribute("userSession", usrSession);
 		String content = getContent(request);
 		request.setAttribute("content", content);
+		var targetPage = "WEB-INF/views/main.jsp";
 
 		if (request.getParameter("action") != null) {
 			content = request.getParameter("action");
@@ -41,177 +42,221 @@ public class Main extends HttpServlet {
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
+		
 		switch (content) {
 		case "catalog":
-			try {
-				try {
-					int category = Integer.parseInt(request.getParameter("cat"));
-					var good = GoodGateway.findById(category);
-					request.setAttribute("goods", good);
-					request.setAttribute("goodsViewData", ViewMapper.goodsToCatalogCardView(good));
-				} catch (NumberFormatException e) {
-					var goods = GoodGateway.getAllGoods();
-					request.setAttribute("goods", goods);
-					request.setAttribute("goodsViewData", ViewMapper.goodsToCatalogCardView(goods));
-				}
-			} catch (SQLException e) {
-				e.printStackTrace();
-			}
+			targetPage = prepareCatalog(request);
 			break;
 		case "goodtocart":
-			int goodId = Integer.parseInt(request.getParameter("id"));
-			int count =  Integer.parseInt(request.getParameter("count"));
-			if (goodId > 0) {
-				try {
-					CartGateway.addGood(usrSession.getUser().getId(), goodId, count);
-					request.setAttribute("goodtocartSuccess", "");
-				} catch (SQLException e) {
-					e.printStackTrace();
-				}
-			}
-			request.getRequestDispatcher("WEB-INF/views/good-to-cart.jsp").forward(request, response);
-			return;
+			targetPage = addGoodToCart(request, usrSession);
+			System.out.println(request.getAttribute("goodtocartSuccess"));
+//			request.getRequestDispatcher("WEB-INF/views/good-to-cart.jsp").forward(request, response);
+//			return;
+			break;
 		case "catbycat":
-			try {
-				int category = Integer.parseInt(request.getParameter("cat"));
-				var goods = GoodGateway.findByCategory(category);
-				request.setAttribute("goodsViewData", ViewMapper.goodsToCatalogCardView(goods));
-				request.getRequestDispatcher("WEB-INF/views/catalog.jsp").forward(request, response);
-				return;
-			} catch (NumberFormatException e) {
-				e.printStackTrace();
-			} catch (SQLException e) {
-				e.printStackTrace();
-			}
+			targetPage = prepareCatalogByCategory(request, response);
+			break;
 		case "cart":
-			if (!usrSession.getPrivelage().isGuest()) {
-				System.out.println("cart.userId -> " + usrSession.getUser().getId());
-				try {
-					var cartItems = CartGateway.getCart(usrSession.getUser().getId());
-					System.out.println("cart.cartItems -> " + cartItems.length);
-					request.setAttribute("cartCardViewData", ViewMapper.cartItemsToCartCardViews(cartItems));
-				} catch (SQLException e) {
-					e.printStackTrace();
-				}
-			} else {
-				try {
-					var cartItems = CartGateway.getCart(0);
-					request.setAttribute("cartCardViewData", ViewMapper.cartItemsToCartCardViews(cartItems));
-				} catch (SQLException e) {
-					e.printStackTrace();
-				}
-			}
+			targetPage = prepareCart(request, usrSession);
 			break;
 		case "regform":
-			if (usrSession.getPrivelage().isGuest()) {
-				var regformParMap = request.getParameterMap();
-				if (regformParMap.containsKey("email") && regformParMap.containsKey("name")
-						&& regformParMap.containsKey("pwd")) {
-					System.out.println("INFO regform: have email, name & pwd parameters");
-					var email = regformParMap.get("email")[0];
-					var name = regformParMap.get("name")[0];
-					var pwd = regformParMap.get("pwd")[0];
-					if (!email.isBlank() && !name.isBlank() && !pwd.isBlank()) {
-						System.out.println("INFO regform: email, name & pwd is not blank");
-						if (Validators.isEmail(email)) { // email is valid
-							System.out.println("INFO signin: Incomming email is valid e-mail address");
+			usrSession = prepareRegForm(request, usrSession);
+			targetPage = "WEB-INF/views/registration-popup.jsp";
+			break;
+		case "signin":
+			usrSession = prepareSignInForm(request, usrSession);
+			targetPage = "WEB-INF/views/signin-popup.jsp";
+			break;
+		case "submenu":
+			targetPage = prepareSubmenu(request, response);
+			break;
+		case "logout":
+			usrSession = UserSessionFactory.createSession(null, null);
+			targetPage = "WEB-INF/views/logout.jsp";
+			break;
+		default:
+			content = "catalog";
+			targetPage = "WEB-INF/views/main.jsp";
+		}
+		
+		request.removeAttribute("userSession");
+		request.setAttribute("userSession", usrSession);
+		request.setAttribute("content", content);
+		request.getRequestDispatcher(targetPage).forward(request, response);
+	}
+
+	private String prepareSubmenu(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
+		var page = "WEB-INF/views/submenu-vertical-detailed.jsp";
+		try {
+			var catId = Integer.parseInt(request.getParameter("cat"));
+			request.setAttribute("categories", CategoryGateway.getSubcategories(catId));
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return page;
+	}
+
+	private UserSession prepareSignInForm(HttpServletRequest request, UserSession usrSession) {
+		var signinParMap = request.getParameterMap();
+		if (signinParMap.containsKey("email") && signinParMap.containsKey("pwd")) {
+			System.out.println("INFO signin: have email & pwd parameters");
+			var email = signinParMap.get("email")[0];
+			var pwd = signinParMap.get("pwd")[0];
+			if (!email.isBlank() && !pwd.isBlank()) {
+				System.out.println("INFO signin: email & pwd is not blank");
+				if (Validators.isEmail(email)) { // email is valid
+					System.out.println("INFO signin: Incomming email is valid e-mail address");
+					User usr = null;
+					try {
+						usr = UserGateway.findByEmail(email);
+						System.out.println("INFO signin: Get user by email -> " + usr);
+					} catch (SQLException e) {
+						e.printStackTrace();
+					}
+					if (usr != null) { // user is found
+						if (pwd.equals(usr.getPwd())) {
+							System.out.println("INFO signin: Incomming pass is valid");
 							try {
-								var usr = UserGateway.addUser(email, name, pwd, UserPermitionType.CLIENT);
-								if (usr != null) { // new user created
-									try {
-										usrSession = UserSessionFactory.createSession(usr,
-												UserGateway.getPermitionType(usr.getId()));
-										System.out.println("INFO signin: new userSession -> " + usrSession);
-										request.getSession().setAttribute("userSession", usrSession);
-										request.setAttribute("userRegSuccess", "");
-									} catch (SQLException e) {
-										e.printStackTrace();
-									}
-								} else { // new user not created
-									System.out.println("ERROR regform: User Not Created");
-									request.setAttribute("regformError", "UserNotCreated");
-								}
+								usrSession = UserSessionFactory.createSession(usr,
+										UserGateway.getPermitionType(usr.getId()));
+								System.out.println("INFO signin: new userSession -> " + usrSession);
+//									request.setAttribute("userSession", usrSession);
+								request.getSession().setAttribute("userSession", usrSession);
+								request.setAttribute("signinSuccess", "");
 							} catch (SQLException e) {
 								e.printStackTrace();
 							}
-						} else { // email is invalid
-							System.out.println("ERROR regform: Invalid Email");
-							request.setAttribute("regformError", "InvalidEmail");
+						} else {
+							request.setAttribute("signinError", "InvalidPassword");
+							System.out.println("ERROR signin: InvalidPassword");
 						}
+					} else { // not found user
+						request.setAttribute("signinError", "UserNoFound");
+						System.out.println("ERROR signin: UserNoFound");
 					}
+				} else { // email is invalid
+					request.setAttribute("signinError", "InvalidEmail");
+					System.out.println("ERROR signin: InvalidEmail");
 				}
 			}
-			request.getRequestDispatcher("WEB-INF/views/registration-popup.jsp").forward(request, response);
-			return;
-		case "signin":
-			var signinParMap = request.getParameterMap();
-			if (signinParMap.containsKey("email") && signinParMap.containsKey("pwd")) {
-				System.out.println("INFO signin: have email & pwd parameters");
-				var email = signinParMap.get("email")[0];
-				var pwd = signinParMap.get("pwd")[0];
-				if (!email.isBlank() && !pwd.isBlank()) {
-					System.out.println("INFO signin: email & pwd is not blank");
+		}
+		return usrSession;
+	}
+
+	private UserSession prepareRegForm(HttpServletRequest request, UserSession usrSession) {
+		if (usrSession.getPrivelage().isGuest()) {
+			var regformParMap = request.getParameterMap();
+			if (regformParMap.containsKey("email") && regformParMap.containsKey("name")
+					&& regformParMap.containsKey("pwd")) {
+				System.out.println("INFO regform: have email, name & pwd parameters");
+				var email = regformParMap.get("email")[0];
+				var name = regformParMap.get("name")[0];
+				var pwd = regformParMap.get("pwd")[0];
+				if (!email.isBlank() && !name.isBlank() && !pwd.isBlank()) {
+					System.out.println("INFO regform: email, name & pwd is not blank");
 					if (Validators.isEmail(email)) { // email is valid
 						System.out.println("INFO signin: Incomming email is valid e-mail address");
-						User usr = null;
 						try {
-							usr = UserGateway.findByEmail(email);
-							System.out.println("INFO signin: Get user by email -> " + usr);
-						} catch (SQLException e) {
-							e.printStackTrace();
-						}
-						if (usr != null) { // user is found
-							if (pwd.equals(usr.getPwd())) {
-								System.out.println("INFO signin: Incomming pass is valid");
+							var usr = UserGateway.addUser(email, name, pwd, UserPermitionType.CLIENT);
+							if (usr != null) { // new user created
 								try {
 									usrSession = UserSessionFactory.createSession(usr,
 											UserGateway.getPermitionType(usr.getId()));
 									System.out.println("INFO signin: new userSession -> " + usrSession);
-//									request.setAttribute("userSession", usrSession);
 									request.getSession().setAttribute("userSession", usrSession);
-									request.setAttribute("signinSuccess", "");
+									request.setAttribute("userRegSuccess", "");
 								} catch (SQLException e) {
 									e.printStackTrace();
 								}
-							} else {
-								request.setAttribute("signinError", "InvalidPassword");
-								System.out.println("ERROR signin: InvalidPassword");
+							} else { // new user not created
+								System.out.println("ERROR regform: User Not Created");
+								request.setAttribute("regformError", "UserNotCreated");
 							}
-						} else { // not found user
-							request.setAttribute("signinError", "UserNoFound");
-							System.out.println("ERROR signin: UserNoFound");
+						} catch (SQLException e) {
+							e.printStackTrace();
 						}
 					} else { // email is invalid
-						request.setAttribute("signinError", "InvalidEmail");
-						System.out.println("ERROR signin: InvalidEmail");
+						System.out.println("ERROR regform: Invalid Email");
+						request.setAttribute("regformError", "InvalidEmail");
 					}
 				}
 			}
-			request.getRequestDispatcher("WEB-INF/views/signin-popup.jsp").forward(request, response);
-			return;
-		case "submenu":
+		}
+		return usrSession;
+	}
+
+	private String prepareCart(HttpServletRequest request, UserSession usrSession) {
+		var page = "WEB-INF/views/main.jsp";
+		if (!usrSession.getPrivelage().isGuest()) {
+			System.out.println("cart.userId -> " + usrSession.getUser().getId());
 			try {
-				var catId = Integer.parseInt(request.getParameter("cat"));
-				request.setAttribute("categories", CategoryGateway.getSubcategories(catId));
-				request.getRequestDispatcher("WEB-INF/views/submenu-vertical-detailed.jsp").forward(request, response);
-				return;
+				var cartItems = CartGateway.getCart(usrSession.getUser().getId());
+				System.out.println("cart.cartItems -> " + cartItems.length);
+				request.setAttribute("cartCardViewData", ViewMapper.cartItemsToCartCardViews(cartItems));
 			} catch (SQLException e) {
 				e.printStackTrace();
 			}
-			break;
-		case "logout":
-			usrSession = UserSessionFactory.createSession(null, null);
-			System.out.println("session reset -> " + usrSession);
-//			content = (String) request.getAttribute("lastContent");
-			break;
-		default:
-			content = "catalog";
+		} else {
+			try {
+				var cartItems = CartGateway.getCart(0);
+				request.setAttribute("cartCardViewData", ViewMapper.cartItemsToCartCardViews(cartItems));
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
 		}
-		request.removeAttribute("userSession");
-		request.setAttribute("userSession", usrSession);
-		request.getSession().setAttribute("lastContent", content);
-		request.setAttribute("content", content); 
-		request.getRequestDispatcher("WEB-INF/views/main.jsp").forward(request, response);
+		return page;
+	}
+
+	private String prepareCatalogByCategory(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
+		var page = "WEB-INF/views/catalog.jsp";
+		try {
+			int category = Integer.parseInt(request.getParameter("cat"));
+			var goods = GoodGateway.findByCategory(category);
+			request.setAttribute("goodsViewData", ViewMapper.goodsToCatalogCardView(goods));
+//			request.getRequestDispatcher("WEB-INF/views/catalog.jsp").forward(request, response);
+//			return;
+		} catch (NumberFormatException e) {
+			e.printStackTrace();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return page;
+	}
+
+	private String addGoodToCart(HttpServletRequest request, UserSession usrSession) {
+		var page = "WEB-INF/views/good-to-cart.jsp";
+		int goodId = Integer.parseInt(request.getParameter("id"));
+		int count = Integer.parseInt(request.getParameter("count"));
+		if (goodId > 0) {
+			try {
+				CartGateway.addGood(usrSession.getUser().getId(), goodId, count);
+				request.setAttribute("goodtocartSuccess", "");
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+		return page;
+	}
+
+	private String prepareCatalog(HttpServletRequest request) {
+		final String page = "WEB-INF/views/main.jsp";
+		try {
+			try {
+				int category = Integer.parseInt(request.getParameter("cat"));
+				var good = GoodGateway.findById(category);
+				request.setAttribute("goods", good);
+				request.setAttribute("goodsViewData", ViewMapper.goodsToCatalogCardView(good));
+			} catch (NumberFormatException e) {
+				var goods = GoodGateway.getAllGoods();
+				request.setAttribute("goods", goods);
+				request.setAttribute("goodsViewData", ViewMapper.goodsToCatalogCardView(goods));
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return page;
 	}
 
 	private String getContent(HttpServletRequest request) {
